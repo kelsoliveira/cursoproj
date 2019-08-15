@@ -3,16 +3,23 @@ package com.kelsoliveira.cursomc.domain;
 
 //PACOTES DE IMPORTAÇÕES
 import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /* SERIALIZABLE IMPLEMENTADA PARA QUE OS OBJETOS SEJAM CONVERTIDOS EM UMA SEQUENCIA DE BYTES
  * PARA QUE OS OBJETOS SEJAM GRAVADOS EM ARQUIVOS, TRAFEGAR EM REDE...
  * SENDO UMA EXIGENCIA DO JAVA */
 
 //CLASSE DE DOMINIO DAS CATEGORIAS DE PRODUTOS
+@Entity
 public class Categoria implements Serializable {
 	private static final long serialVersionUID = 1L; //NUMERO DE VERSÃO DA CLASSE
 	
 	//ATRIBUTOS BÁSICOS DA CLASSE, POR PADRÃO SÃO PRIVADOS, NÃO ACESSIVEIS A OUTRAS CLASSES
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)//DEFININDO A ESTRATÉGIA DE GERAÇÃO AUTOMÁTICA DOS IDs DAS CATEGORIAS
 	private Integer idCat;
 	private String nome;
 	
