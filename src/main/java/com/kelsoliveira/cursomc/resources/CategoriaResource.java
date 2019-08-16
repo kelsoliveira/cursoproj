@@ -1,31 +1,37 @@
 //PACOTE QUE CONTEM AS CLASSES DE CONTROLE DE RECURSOS
+//CAMADA DE CONTROLE
 package com.kelsoliveira.cursomc.resources;
-
-//LISTA DE IMPORTAÇÕES
-import java.util.ArrayList;
-import java.util.List;
-import com.kelsoliveira.cursomc.domain.Categoria;
 
 //DEPENDENCIAS
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import com.kelsoliveira.cursomc.domain.Categoria;
+import com.kelsoliveira.cursomc.services.CategoriaService;
 
 //CLASSE DO TIPO CONTROLADORA REST
-@RestController
+@RestController // ANOTAÇÃO QUE TORNA A CLASSE EM CONTROLADORA REST
 @RequestMapping(value = "/categorias") // EndPoint PARA ESSE RECURSO
 public class CategoriaResource {
-	@RequestMapping(method = RequestMethod.GET) //ASSOCIAÇÃO COM O VERBO HTTP - NO CASO OBTER DADOS - GET
-	public List<Categoria> listar() {
-		
-		Categoria cat1  = new Categoria (1,"Informática");
-		Categoria cat2 = new Categoria (2,"Escritório");
-		
-		/*List É UMA INTERFACE E NÃO PODE SER INSTANCIADO*/
-		List<Categoria> lista = new ArrayList<Categoria>();
-		lista.add(cat1);
-		lista.add(cat2);
-		
-		return lista;
+
+	// INSTANCIA QUE ACESSA A CLASSE DE SERVIÇO
+	@Autowired
+	private CategoriaService service;
+
+	// ASSOCIAÇÃO COM O VERBO HTTP - NO CASO OBTER DADOS - GET
+	// @PathVariable, INDICA AO SPRING QUE O ID DA URL DEVE IR PARA O ID DA VARIÁVEL
+	/*
+	 * ResponseEntity, TIPO ESPECIAL DO SPRING, ENCAPSULA INFORMAÇÕES DE UMA
+	 * RESPOSTA HTTP PARA SERVIÇO REST
+	 */
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public ResponseEntity<?> find(@PathVariable Integer id) {
+
+		Categoria obj = service.buscar(id);
+		return ResponseEntity.ok().body(obj);
+
 	}
 }
